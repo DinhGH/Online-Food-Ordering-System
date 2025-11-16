@@ -12,7 +12,7 @@ model Food {
   name      String
   image     String
   price     Float
-  desc      String?
+  rating    Float
 }
 
 model Order {
