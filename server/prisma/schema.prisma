@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Food {
+  id          Int      @id @default(autoincrement())
+  name        String
+  image       String
+  price       Float
+  rating      Float
+  description String?  
+  category    String?   
+  isAvailable Boolean  @default(true) // còn bán hay hết
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  items     Json
+  total     Float
+  createdAt DateTime @default(now())
+  paymentId String?
+}
