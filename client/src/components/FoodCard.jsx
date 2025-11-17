@@ -12,7 +12,7 @@ const FoodImage = ({ src, alt }) => (
   </div>
 );
 
-// Rating bằng sao
+// Rating bằng sao 123
 const RatingStars = ({ rating }) => {
   const fullStars = Math.round(rating || 0);
   return (
