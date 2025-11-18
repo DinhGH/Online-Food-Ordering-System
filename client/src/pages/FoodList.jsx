@@ -16,7 +16,7 @@ const FoodList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/api/food-items?page=${pageNumber}&limit=${limit}`
+        `/api/food-items?page=${pageNumber}&limit=${limit}`
       );
       if (!response.ok) throw new Error("Failed to fetch foods");
 
@@ -46,8 +46,8 @@ const FoodList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white text-xl">Đang tải...</div>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
       </div>
     );
   }
