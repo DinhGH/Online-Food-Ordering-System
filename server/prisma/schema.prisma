@@ -7,16 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Cập nhật Food model:
 model Food {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   image       String
   price       Float
   rating      Float
-  description String?  
-  category    String?   
-  isAvailable Boolean  @default(true) // còn bán hay hết
-  createdAt   DateTime @default(now())
+  description String?
+  category    String?
+  isAvailable Boolean    @default(true)
+  createdAt   DateTime   @default(now())
 }
 
 model Order {

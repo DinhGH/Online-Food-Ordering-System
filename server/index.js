@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { PrismaClient } = require("@prisma/client");
 const foodRoutes = require("./routes/productRoutes");
+const cardRoutes = require("./routes/cartRoutes");
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 // --- Correct way to use router ---
 app.use("/api/food-items", foodRoutes);
+app.use("/api/cart", cardRoutes);
 
 // --- Start server ---
 prisma
