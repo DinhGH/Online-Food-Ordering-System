@@ -1,18 +1,26 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // [1. Import useNavigate]
 
-// Component FoodItem: Hiển thị thông tin của một món ăn
 const FoodItem = ({ food }) => {
+  const navigate = useNavigate(); // [2. Khởi tạo hook navigate]
+
+  // [3. Hàm xử lý khi bấm nút]
+  const handleViewDetail = () => {
+    navigate(`/food/${food.id}`);
+  };
+
   return (
     <motion.div
       className="bg-gray-800 text-white rounded-lg shadow-lg p-4"
-      whileHover={{ scale: 1.07 }}
+      whileHover={{ scale: 1.02 }} // Giảm scale hover container một chút cho đỡ giật
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {/* Hình ảnh món ăn */}
       <motion.div
-        className="overflow-hidden rounded-md mb-4"
+        className="overflow-hidden rounded-md mb-4 cursor-pointer" // Thêm cursor pointer
+        onClick={handleViewDetail} // Bấm vào ảnh cũng chuyển trang
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
@@ -24,7 +32,12 @@ const FoodItem = ({ food }) => {
       </motion.div>
 
       {/* Tên món ăn */}
-      <h3 className="text-xl font-semibold mb-2">{food.name}</h3>
+      <h3
+        className="text-xl font-semibold mb-2 cursor-pointer hover:text-orange-400 transition-colors"
+        onClick={handleViewDetail}
+      >
+        {food.name}
+      </h3>
 
       {/* Rating */}
       <div className="flex items-center mb-4">
@@ -49,14 +62,15 @@ const FoodItem = ({ food }) => {
       {/* Giá + Button */}
       <div className="flex justify-between items-center">
         <span className="text-lg font-bold text-green-500">
-          {food.price} VNĐ
+          {food.price.toLocaleString()} VNĐ
         </span>
 
         <motion.button
-          className="bg-[#1b1a1a] text-white px-4 py-2 rounded-md shadow-md shadow-gray-600"
+          className="bg-[#1b1a1a] text-white px-4 py-2 rounded-md shadow-md shadow-gray-600 hover:bg-orange-700" // Thêm màu hover
           whileHover={{ y: -3, scale: 1.05 }}
           whileTap={{ y: 2, scale: 0.95 }}
           transition={{ duration: 0.2 }}
+          onClick={handleViewDetail} // [4. Gắn sự kiện click]
         >
           Xem chi tiết
         </motion.button>
