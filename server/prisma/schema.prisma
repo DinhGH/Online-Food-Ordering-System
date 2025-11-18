@@ -15,7 +15,7 @@ model Food {
   rating      Float
   description String?  
   category    String?   
-  isAvailable Boolean  @default(true) // còn bán hay hết
+  isAvailable String?  
   createdAt   DateTime @default(now())
 }
 
