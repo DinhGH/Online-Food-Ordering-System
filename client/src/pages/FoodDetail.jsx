@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Star, ShoppingCart } from "lucide-react"; // Dùng icon từ thư viện có sẵn trong package.json của bạn
+import { useCart } from "../hook/useCart.js";
 
 const FoodDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
@@ -11,6 +12,8 @@ const FoodDetail = () => {
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { addToCart } = useCart();
 
   // Hàm gọi API chi tiết món ăn
   useEffect(() => {
@@ -141,6 +144,7 @@ const FoodDetail = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               disabled={!food.isAvailable}
+              onClick={() => addToCart(food)}
               className={`flex items-center px-6 py-3 rounded-lg font-semibold shadow-lg transition-all ${
                 food.isAvailable
                   ? "bg-orange-600 hover:bg-orange-500 text-white"
