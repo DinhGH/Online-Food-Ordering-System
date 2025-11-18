@@ -8,7 +8,6 @@ const listFoodItems = async ({ page = 1, limit = 12, category, search }) => {
   const where = {};
   if (category) where.category = category;
   if (search) where.name = { contains: search, mode: "insensitive" };
-
   const [foods, total] = await Promise.all([
     prisma.food.findMany({
       skip,
@@ -31,6 +30,7 @@ const listFoodItems = async ({ page = 1, limit = 12, category, search }) => {
 const getFoodItemById = async (id) => {
   return prisma.food.findUnique({
     where: { id: Number(id) },
+    // Tương tự, hàm này sẽ trả về đầy đủ: id, name, price, rating, description, category, image, isAvailable...
   });
 };
 
