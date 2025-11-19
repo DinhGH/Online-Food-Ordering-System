@@ -1,26 +1,26 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // [1. Import useNavigate]
+import { useNavigate } from "react-router-dom";
 
-const FoodItem = ({ food }) => {
-  const navigate = useNavigate(); // [2. Khởi tạo hook navigate]
+const FoodItem = ({ food, currentPage }) => {
+  const navigate = useNavigate();
 
-  // [3. Hàm xử lý khi bấm nút]
   const handleViewDetail = () => {
-    navigate(`/food/${food.id}`);
+    // Giữ page khi chuyển trang
+    navigate(`/food/${food.id}?page=${currentPage}`);
   };
 
   return (
     <motion.div
       className="bg-gray-800 text-white rounded-lg shadow-lg p-4"
-      whileHover={{ scale: 1.02 }} // Giảm scale hover container một chút cho đỡ giật
+      whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {/* Hình ảnh món ăn */}
       <motion.div
-        className="overflow-hidden rounded-md mb-4 cursor-pointer" // Thêm cursor pointer
-        onClick={handleViewDetail} // Bấm vào ảnh cũng chuyển trang
+        className="overflow-hidden rounded-md mb-4 cursor-pointer"
+        onClick={handleViewDetail}
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
@@ -66,11 +66,11 @@ const FoodItem = ({ food }) => {
         </span>
 
         <motion.button
-          className="bg-[#1b1a1a] text-white px-4 py-2 rounded-md shadow-md shadow-gray-600 hover:bg-orange-700" // Thêm màu hover
+          className="bg-[#1b1a1a] text-white px-4 py-2 rounded-md shadow-md shadow-gray-600 hover:bg-orange-700"
           whileHover={{ y: -3, scale: 1.05 }}
           whileTap={{ y: 2, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          onClick={handleViewDetail} // [4. Gắn sự kiện click]
+          onClick={handleViewDetail}
         >
           Xem chi tiết
         </motion.button>

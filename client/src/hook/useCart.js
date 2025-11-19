@@ -1,3 +1,4 @@
+// ---------------------- useCart.js ----------------------
 import { useState, useEffect } from "react";
 
 export const useCart = () => {
@@ -5,36 +6,46 @@ export const useCart = () => {
     JSON.parse(localStorage.getItem("cart") || "[]")
   );
 
+  // Cập nhật localStorage mỗi lần cart thay đổi
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Thêm vào giỏ hàng
   const addToCart = (food) => {
     setCart((prev) => {
-      const index = prev.findIndex((item) => item.id === food.id);
+      const exist = prev.find((item) => item.id === food.id);
 
-      if (index >= 0) {
-        // tạo object mới thay vì sửa trực tiếp
-        const updatedItem = {
-          ...prev[index],
-          quantity: prev[index].quantity + 1,
-        };
-        return [...prev.slice(0, index), updatedItem, ...prev.slice(index + 1)];
-      } else {
-        return [...prev, { ...food, quantity: 1 }];
+      if (exist) {
+        return prev.map((item) =>
+          item.id === food.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
       }
+
+      // lưu đủ thông tin: id, name, price, image, quantity
+      return [
+        ...prev,
+        {
+          id: food.id,
+          name: food.name,
+          price: food.price,
+          image: food.image,
+          quantity: 1,
+        },
+      ];
     });
   };
 
-  const removeFromCart = (foodId) =>
-    setCart((prev) => prev.filter((item) => item.id !== foodId));
+  const removeFromCart = (id) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
 
-  const updateQuantity = (foodId, quantity) => {
-    setCart((prev) => {
-      const index = prev.findIndex((item) => item.id === foodId);
-      if (index >= 0) prev[index].quantity = quantity;
-      return [...prev];
-    });
+  const updateQuantity = (id, quantity) => {
+    if (quantity <= 0) return;
+
+    setCart((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, quantity } : item))
+    );
   };
 
   const clearCart = () => setCart([]);

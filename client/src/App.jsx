@@ -9,7 +9,6 @@ export default function App() {
     <Routes>
       <Route path="/" element={<FoodList />} />
       <Route path="/food/:id" element={<FoodDetail />} />
-      <Route path="/cart" element={<Cart />} />
     </Routes>
   );
 }
