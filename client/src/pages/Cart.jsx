@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
 // ---------------------- Cart.jsx ----------------------
-import React from "react";
+import {React, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Payment from "../components/Payment.jsx";
 
-const Cart = ({ cart, updateQuantity, removeFromCart, clearCart, onClose }) => {
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+
+const Cart = ({ cart, updateQuantity, removeFromCart, onClose }) => {
+  const [checkoutAmount, setCheckoutAmount] = useState(null);
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckoutClick = () => {
+    setCheckoutAmount(totalPrice); // truyền tổng tiền sang Payment
+  };
+
 
   return (
+    <>
     <AnimatePresence>
       {/* Overlay */}
       <motion.div
@@ -124,11 +130,7 @@ const Cart = ({ cart, updateQuantity, removeFromCart, clearCart, onClose }) => {
               Tổng: {totalPrice.toLocaleString()} VNĐ
             </div>
             <button
-              onClick={() => {
-                alert("Đặt hàng thành công!");
-                clearCart();
-                onClose();
-              }}
+              onClick={handleCheckoutClick}
               className="w-full bg-orange-600 hover:bg-orange-700 py-3 rounded-lg text-white font-semibold"
             >
               Thanh toán
@@ -137,6 +139,16 @@ const Cart = ({ cart, updateQuantity, removeFromCart, clearCart, onClose }) => {
         )}
       </motion.div>
     </AnimatePresence>
+    {/* Modal Payment */}
+      {checkoutAmount && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+  <div className="bg-[#1b1b1d] p-6 rounded-lg w-[400px] max-w-[90vw] max-h-[90vh] overflow-y-auto">
+    <Payment amount={checkoutAmount} onClose={() => setCheckoutAmount(null)} />
+  </div>
+</div>
+
+      )}
+    </>
   );
 };
 

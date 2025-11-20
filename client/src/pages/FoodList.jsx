@@ -169,7 +169,7 @@ const FoodList = () => {
       {/* Cart Button */}
       <motion.button
         onClick={() => setShowCart(true)}
-        className="fixed bottom-6 right-6 bg-auto text-white w-16 h-16 rounded-full shadow-lg shadow-gray-400 flex items-center justify-center text-2xl z-50"
+        className="fixed bottom-6 right-6 bg-auto text-white w-16 h-16 rounded-full shadow-lg shadow-gray-400 flex items-center justify-center text-2xl z-50 bg-gray-600 hover:bg-gray-500 cursor-pointer"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         animate={{ scale: [1, 1.09, 1] }}

@@ -19,3 +19,11 @@ export const checkout = async (cart) => {
   });
   return res.json();
 };
+export const createPaymentIntent = async (amount) => {
+  const res = await fetch("/api/payments/create-payment-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount }),
+  });
+  return res.json();
+};
