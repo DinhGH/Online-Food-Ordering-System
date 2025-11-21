@@ -12,6 +12,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 app.use(cors({ origin: "http://localhost:5173" }));
+
 app.use(express.json());
 
 // --- Test route ---

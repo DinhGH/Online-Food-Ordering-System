@@ -83,6 +83,7 @@ export default function Payment({ amount, onClose }) {
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
+      
       <CheckoutForm clientSecret={clientSecret} onClose={onClose} />
     </Elements>
   );
