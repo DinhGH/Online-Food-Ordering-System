@@ -2,49 +2,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-exports.checkout = async (req, res) => {
-  try {
-    const userId = req.user.userId; // từ JWT
-    const items = req.body.items || [];
-
-    let total = 0;
-    const validatedItems = [];
-
-    for (const item of items) {
-      const food = await prisma.food.findUnique({ where: { id: item.foodId } });
-      if (!food || !food.isAvailable) continue;
-
-      const subtotal = food.price * item.quantity;
-      total += subtotal;
-
-      validatedItems.push({
-        foodId: food.id,
-        name: food.name,
-        price: food.price,
-        quantity: item.quantity,
-        subtotal,
-      });
-    }
-
-    if (validatedItems.length === 0) {
-      return res
-        .status(400)
-        .json({ success: false, message: "No valid items to order" });
-    }
-
-    const order = await prisma.order.create({
-      data: {
-        items: validatedItems,
-        total,
-        paymentId: null,
-      },
-    });
-
-    res.json({ success: true, order });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
 exports.validateCart = async (req, res) => {
   try {
     const items = req.body.items || [];
@@ -74,6 +31,36 @@ exports.validateCart = async (req, res) => {
 
     res.json({ success: true, items: results, totalPrice });
   } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// Tạo Order sau khi thanh toán
+exports.checkout = async (req, res) => {
+  try {
+    const { items, paymentIntentId, totalPaid, currency } = req.body;
+
+    if (!paymentIntentId)
+      return res.status(400).json({
+        success: false,
+        message: "Missing paymentIntentId",
+      });
+
+    const order = await prisma.order.create({
+      data: {
+        items,
+        totalVnd: totalPaid,
+        totalPaid,
+        currency,
+        paymentIntentId,
+        paymentMethod: "stripe",
+        paymentStatus: "paid",
+      },
+    });
+
+    res.json({ success: true, order });
+  } catch (err) {
+    console.log("CHECKOUT ERROR:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
