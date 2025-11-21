@@ -11,11 +11,20 @@ export const validateCart = async (cart) => {
 };
 
 // Checkout giỏ hàng (tạo order)
-export const checkout = async (cart) => {
+export const checkout = async (data) => {
   const res = await fetch("/api/cart/checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: cart }),
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
+
+export const createPaymentIntent = async (amount) => {
+  const res = await fetch("/api/payments/create-payment-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount }),
   });
   return res.json();
 };
