@@ -1,8 +1,8 @@
 // src/service/api.js
-
+const API_URL = import.meta.env.VITE_API_URL;
 // Validate giỏ hàng
 export const validateCart = async (cart) => {
-  const res = await fetch("/api/cart/validate", {
+  const res = await fetch(`${API_URL}/api/cart/validate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ items: cart }),
@@ -12,7 +12,7 @@ export const validateCart = async (cart) => {
 
 // Checkout giỏ hàng (tạo order)
 export const checkout = async (data) => {
-  const res = await fetch("/api/cart/checkout", {
+  const res = await fetch(`${API_URL}/api/cart/checkout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -21,7 +21,7 @@ export const checkout = async (data) => {
 };
 
 export const createPaymentIntent = async (amount) => {
-  const res = await fetch("/api/payments/create-payment-intent", {
+  const res = await fetch(`${API_URL}/api/payments/create-payment-intent`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount }),
