@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import FoodItem from "../components/FoodItem";
 import Cart from "./Cart";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const FoodList = () => {
   const location = useLocation();
@@ -65,7 +66,7 @@ const FoodList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/food-items?page=${pageNumber}&limit=${limit}`
+        `${API_URL}/api/food-items?page=${pageNumber}&limit=${limit}`
       );
       if (!response.ok) throw new Error("Failed to fetch foods");
 

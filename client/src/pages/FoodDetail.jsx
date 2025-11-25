@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Star, ShoppingCart } from "lucide-react";
 import { useCart } from "../hook/useCart.js";
 import Toast from "../components/Toast.jsx";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const FoodDetail = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const FoodDetail = () => {
     const fetchFoodDetail = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/food-items/get/${id}`);
+        const response = await fetch(`${API_URL}/api/food-items/get/${id}`);
         if (!response.ok) throw new Error("Không tìm thấy món ăn!");
         const data = await response.json();
         setFood(data);

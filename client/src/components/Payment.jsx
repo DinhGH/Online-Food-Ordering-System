@@ -8,6 +8,9 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
+const API_URL = import.meta.env.VITE_API_URL;
+const FRONT_URL = import.meta.env.VITE_FRONTEND_URL;
+
 const stripePromise = loadStripe(
   "pk_test_51SVDCp1piLI9QPmcGlyfGnMNFzEjVjTiZs6F3vcEND2HMD29YbWdGEqD4PBW5aZ8M4KurcjvxLmWK37ksIGcQBUx00HZKnd0ls"
 ); // key publishable
@@ -82,6 +85,8 @@ function StripePaymentForm({ clientSecret, onClose, receiverInfo }) {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
 
+  const url = FRONT_URL || "http://localhost:5173";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
@@ -91,7 +96,7 @@ function StripePaymentForm({ clientSecret, onClose, receiverInfo }) {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/payment-success",
+        return_url: `${url}/payment-success`,
       },
     });
 
@@ -141,7 +146,7 @@ export default function Payment({ amount, onClose }) {
   useEffect(() => {
     async function fetchPaymentIntent() {
       localStorage.setItem("total", amount);
-      const res = await fetch("/api/payments/create-payment-intent", {
+      const res = await fetch(`${API_URL}/api/payments/create-payment-intent`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount }),
